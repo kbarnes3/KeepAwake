@@ -18,7 +18,20 @@ void BlockSleep()
 
 void DontExit()
 {
+    // Just wait on an event that'll never get set to efficiently wait
+    HANDLE neverEndingEvent = NULL;
 
+    neverEndingEvent = CreateEvent(nullptr, FALSE, FALSE, nullptr);
+
+    if (neverEndingEvent == NULL)
+    {
+        RaiseFailFastException(nullptr, nullptr, 0);
+    }
+
+    DWORD waitResult = 0;
+
+    waitResult = WaitForSingleObject(neverEndingEvent, INFINITE);
+    RaiseFailFastException(nullptr, nullptr, 0);
 }
 
 
